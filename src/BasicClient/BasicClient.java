@@ -2,12 +2,9 @@ package BasicClient;
 
 import RMIRegistry.Exceptions.NonSerializableException;
 import RMIRegistry.IRMIRegistry;
-
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -68,6 +65,14 @@ public class BasicClient extends UnicastRemoteObject implements IBasicClient {
 
             System.out.println("----- On affiche la liste des objets sur le serveur -----");
             for (String str : stub.list()){
+                System.out.println(str);
+            }
+
+
+            System.out.println("----- On bind RemoteObj10 --> n = 10 -----");
+            stub.bind("RemoteObj10", new RemoteObj(10));
+            System.out.println("----- On affiche la liste des 2 derniers objets enregistrés sur le serveur (plus récent en 1er) -----");
+            for (String str : stub.getLastEntries(2)){
                 System.out.println(str);
             }
 

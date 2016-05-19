@@ -16,14 +16,14 @@ public interface IRMIRegistry extends Remote {
      * @param name
      * @param obj
      */
-    void bind(String name, Remote obj) throws RemoteException, NonSerializableException;
+    void bind(String name, Remote obj) throws RemoteException, NonSerializableException;;
 
     /**
      * Replace the entry for the specified name in our Registry
      * @param name
      * @param obj
      */
-    void rebind(String name, Remote obj) throws RemoteException, NonSerializableException;
+    void rebind(String name, Remote obj) throws RemoteException, NonSerializableException;;
 
     /**
      * Return the corresponding Object
@@ -51,6 +51,8 @@ public interface IRMIRegistry extends Remote {
     String[] list() throws RemoteException;
 
     /**
-     * AJouter d'autres features
+     * Return an array with the n last entry names
+     * @return
      */
+    String[] getLastEntries(int n) throws RemoteException;
 }

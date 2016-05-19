@@ -51,6 +51,8 @@ public interface IRMIRegistry extends Remote {
     String[] list() throws RemoteException;
 
     /**
-     * AJouter d'autres features
+     * Return an array with the n last entry names
+     * @return
      */
+    String[] getLastEntries(int n) throws RemoteException;
 }

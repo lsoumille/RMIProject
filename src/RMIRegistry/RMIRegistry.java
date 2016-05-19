@@ -64,4 +64,9 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     public String[] list() {
         return map.list();
     }
+
+    @Override
+    public String[] getLastEntries(int n){
+        return map.getLastEntries(n);
+    }
 }
