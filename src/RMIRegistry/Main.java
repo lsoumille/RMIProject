@@ -5,7 +5,8 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 /**
- * Created by lucas on 19/05/16.
+ * @author Lucas Soumille
+ * @version 19/05/16.
  */
 public class Main {
 
