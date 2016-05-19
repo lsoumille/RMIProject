@@ -1,0 +1,2 @@
+8080 /home/lucas/IdeaProjects/ServeurRMI/out/production/ServeurRMI/
+(Port Dest des .class de chargement)
