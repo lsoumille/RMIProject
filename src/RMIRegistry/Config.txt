@@ -1,0 +1,2 @@
+-Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.codebase="http://localhost:8080/"
+(Pour l'acces dynamique aux .class)

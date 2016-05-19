@@ -1,4 +1,4 @@
-package ServeurHttp.classserver;
+package ServeurHttp;
 
 /**
  * The ClassFileServer implements a ClassServer that

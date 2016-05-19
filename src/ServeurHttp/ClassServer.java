@@ -1,4 +1,4 @@
-package ServeurHttp.classserver;
+package ServeurHttp;
 
 /**
  * ClassServer is an abstract class that provides the
