@@ -1,0 +1,2 @@
+On lance le serveur rmi d'où on veut avec :
+rmiregistry 1098 -J-Djava.rmi.server.useCodebaseOnly=false

@@ -8,7 +8,12 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
 
-    protected RMIRegistry() throws RemoteException {
+    public RMIRegistry(int numport) throws RemoteException{
+        super(numport);
+    }
+
+    public RMIRegistry() throws RemoteException{
+        super();
     }
 
     @Override
