@@ -3,6 +3,14 @@
 #intellij
 *.iml
 /.idea
+Client/.idea
+RMIRegistry/.idea
+RMIRegistry/out
+ServerHttp/.idea
+ServerHttp/out
+ServiceDelivery/.idea
+ServiceDelivery/out
+out/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

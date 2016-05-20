@@ -3,6 +3,7 @@
 
 lucas m :
 3000 out/production/RMIProject/
+3000 /home/lucas/Documents/SI4/S2/AppRep/Baude/RMIProject/RMIRegistry/out/production/RMIRegistry
 
 rmiregistry 1098 -Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.co
 debase="http://localhost:8080/"
