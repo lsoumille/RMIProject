@@ -3,7 +3,6 @@
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -28,7 +27,7 @@ public class BasicClient extends UnicastRemoteObject implements IBasicClient {
     public static void main(String[] args) {
         try {
             if (System.getSecurityManager() == null) {
-                System.setSecurityManager(new RMISecurityManager());
+                System.setSecurityManager(new SecurityManager());
             }
             IRMIRegistry stub = (IRMIRegistry) Naming.lookup("rmi://localhost:1098/RMIUniversel");
 
