@@ -8,5 +8,9 @@ import java.rmi.RemoteException;
  */
 public interface IService extends Remote {
 
-    void printInformation() throws RemoteException;
+    /**
+     * Return the service's description
+     * @throws RemoteException
+     */
+    String getInformation() throws RemoteException;
 }

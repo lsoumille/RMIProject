@@ -20,12 +20,12 @@ public class Main {
                 System.setSecurityManager(new RMISecurityManager());
             }
             //On récupére notre RMI Universel
-            IRMIRegistry stub = (IRMIRegistry) Naming.lookup("rmi://localhost:1098/RMIUniversel");
+            IRMIRegistry stub = (IRMIRegistry)  Naming.lookup("rmi://localhost:1098/RMIUniversel");
             //On crée le stub
-            IService myService = new Service();
+            IConnexionService myService = new ConnexionService();
             //On link notre service
             stub.bind("MonService", myService);
-
+            System.out.println("Service ajouté");
         } catch (Exception e) {
             e.printStackTrace();
         }

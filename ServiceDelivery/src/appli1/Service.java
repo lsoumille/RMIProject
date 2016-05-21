@@ -1,5 +1,6 @@
 package appli1;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -13,7 +14,7 @@ public class Service extends UnicastRemoteObject implements IService {
     }
 
     @Override
-    public void printInformation() throws RemoteException {
-        System.out.println("Mon Stub");
+    public String getInformation() throws RemoteException {
+        return "info";
     }
 }

@@ -1,6 +1,8 @@
+package iRMI;
 
 import Exceptions.NonSerializableException;
 import Utils.RegistryAPI;
+import iRMI.IRMIRegistry;
 
 import java.io.Externalizable;
 import java.io.Serializable;
