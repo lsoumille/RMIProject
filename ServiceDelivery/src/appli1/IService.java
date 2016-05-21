@@ -1,5 +1,8 @@
 package appli1;
 
+import JMS.JMSServer;
+
+import javax.jms.JMSException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -13,4 +16,13 @@ public interface IService extends Remote {
      * @throws RemoteException
      */
     String getInformation() throws RemoteException;
+
+    /**
+     * Return the name of the queue which the client subscribed to
+     * @param idClient
+     * @return
+     * @throws RemoteException
+     */
+    String subscribe(String idClient) throws RemoteException, JMSException;
+
 }

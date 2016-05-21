@@ -2,4 +2,4 @@
 (Pour l'acces dynamique aux .class)
 
 lucas m:
--Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.codebase="http://localhost:3000/"
+-Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.codebase="http://localhost:3000/" -Djava.security.policy="security.txt"

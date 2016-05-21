@@ -1,8 +1,7 @@
 package appli1;
 
 
-import appli1.IService;
-import appli1.Service;
+import JMS.JMSServer;
 import iRMI.IRMIRegistry;
 
 
@@ -21,7 +20,9 @@ public class Main {
             }
             //On récupére notre RMI Universel
             IRMIRegistry stub = (IRMIRegistry)  Naming.lookup("rmi://localhost:1098/RMIUniversel");
-            //On crée le stub
+            //On crée le
+//            JMSServer jmsServer = new JMSServer();
+//            System.out.println("dans le main " + jmsServer);
             IConnexionService myService = new ConnexionService();
             //On link notre service
             stub.bind("MonService", myService);

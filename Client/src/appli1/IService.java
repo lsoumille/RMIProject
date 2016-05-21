@@ -1,5 +1,6 @@
 package appli1;
 
+import javax.jms.JMSException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -9,4 +10,5 @@ import java.rmi.RemoteException;
 public interface IService extends Remote {
 
     String getInformation() throws RemoteException;
+    String subscribe(String idClient) throws RemoteException, JMSException;
 }

@@ -1,1 +1,1 @@
--Djava.security.policy="security.txt"
+-Djava.rmi.server.useCodebaseOnly=false -Djava.security.policy="security.txt"
