@@ -4,6 +4,8 @@
 *.iml
 /.idea
 Client/.idea
+RMIRegistry/.idea
+RMIRegistry/out
 iRMI.RMIRegistry/.idea
 iRMI.RMIRegistry/out
 ServerHttp/.idea
