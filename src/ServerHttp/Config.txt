@@ -1,5 +1,0 @@
-8080 /home/lucas/IdeaProjects/ServeurRMI/out/production/ServeurRMI/
-(Port Dest des .class de chargement)
-
-lucas m :
-3000 out/production/RMIProject/
