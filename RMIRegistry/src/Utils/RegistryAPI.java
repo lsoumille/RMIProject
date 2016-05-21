@@ -1,5 +1,6 @@
 package Utils;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ public class RegistryAPI {
      */
 
     //HashMap containing couples (Name, Object) simulating the RMI register
-    private static HashMap<String, Remote> map = new HashMap<>();
+    private static HashMap<String, Serializable> map = new HashMap<>();
 
     //List containing only the names of the objects, by order of addition
     private static List<String> keys = new ArrayList<>();
@@ -25,7 +26,7 @@ public class RegistryAPI {
      * @param key
      * @param obj
      */
-    public void add(String key, Remote obj){
+    public void add(String key, Serializable obj){
         map.put(key, obj);
         if (keys.contains(key)){
             keys.remove(key);
@@ -38,7 +39,7 @@ public class RegistryAPI {
      * @param key
      * @return
      */
-    public Remote get(String key){
+    public Serializable get(String key){
         if(map.containsKey(key)){
             return map.get(key);
         }
@@ -100,11 +101,11 @@ public class RegistryAPI {
         return lastEntries;
     }
 
-    public static HashMap<String, Remote> getMap() {
+    public static HashMap<String, Serializable> getMap() {
         return map;
     }
 
-    public static void setMap(HashMap<String, Remote> map) {
+    public static void setMap(HashMap<String, Serializable> map) {
         RegistryAPI.map = map;
     }
 

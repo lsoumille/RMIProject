@@ -29,7 +29,7 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     }
 
     @Override
-    public void bind(String name, Remote obj) throws NonSerializableException {
+    public void bind(String name, Serializable obj) throws NonSerializableException {
         if ((obj instanceof Serializable) || (obj instanceof Externalizable)){
             map.add(name, obj);
         } else {
@@ -38,7 +38,7 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     }
 
     @Override
-    public void rebind(String name, Remote obj) throws NonSerializableException {
+    public void rebind(String name, Serializable obj) throws NonSerializableException {
         if ((obj instanceof Serializable) || (obj instanceof Externalizable)){
             map.add(name, obj);
         } else {
@@ -47,7 +47,7 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     }
 
     @Override
-    public Remote lookup(String name) {
+    public Serializable lookup(String name) {
         return map.get(name);
     }
 
