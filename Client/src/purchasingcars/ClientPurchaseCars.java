@@ -1,5 +1,6 @@
 package purchasingcars;
 
+import JMS.ClientJMS;
 import purchasingcars.IConnexionService;
 import purchasingcars.IPurchaseService;
 import purchasingcars.business.Car;
@@ -25,6 +26,7 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
     public static void main(String[] args) {
         try {
             ClientPurchaseCars cli = new ClientPurchaseCars(true);
+            ClientJMS jms;
             if (System.getSecurityManager() == null) {
                 System.setSecurityManager(new SecurityManager());
             }
@@ -43,6 +45,15 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
             }
             monService.sellCar(c, cli);
             System.out.println(cli.solvency);
+            monService.beRecalled(cli);
+
+            //Abonnement
+            String nomQueue = monService.subscribe("Lucas");
+            jms = new ClientJMS();
+            jms.initClient(nomQueue);
+
+            c = monService.buyCar("red", cli);
+            monService.sellCar(c, cli);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,5 +67,10 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
     @Override
     public void updateSolvency() throws RemoteException {
         solvency = ! solvency;
+    }
+
+    @Override
+    public void call(String message) throws RemoteException {
+        System.out.println("Le serveur vous a contacté et vous a laissé le message suivant : " + message);
     }
 }

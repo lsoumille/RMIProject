@@ -1,21 +1,22 @@
+package JMS;
+
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
  * @author Lucas Martinez
  * @version 21/05/16.
  */
-public class JMSClient implements javax.jms.MessageListener {
+public class ClientJMS implements MessageListener {
 
-    private javax.jms.Connection connect = null;
-    private javax.jms.Session session = null;
+    private Connection connect = null;
+    private Session session = null;
     InitialContext context = null;
 
-    public JMSClient() {
+    public ClientJMS() {
         configure();
     }
 
@@ -27,10 +28,10 @@ public class JMSClient implements javax.jms.MessageListener {
 
             context = new InitialContext(properties);
 
-            javax.jms.ConnectionFactory factory = (ConnectionFactory) context.lookup("ConnectionFactory");
+            ConnectionFactory factory = (ConnectionFactory) context.lookup("ConnectionFactory");
             connect = factory.createConnection();
             connect.start();
-        } catch (javax.jms.JMSException | NamingException e){
+        } catch (JMSException | NamingException e){
             e.printStackTrace();
         }
     }
@@ -38,9 +39,9 @@ public class JMSClient implements javax.jms.MessageListener {
     public void initClient(String queueName){
         try{
 
-            session = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);
+            session = connect.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Queue queue = (Queue) context.lookup("dynamicQueues/" + queueName);
-            javax.jms.MessageConsumer qReceiver = session.createConsumer(queue);
+            MessageConsumer qReceiver = session.createConsumer(queue);
             qReceiver.setMessageListener(this);
 
         } catch(JMSException | NamingException e){
@@ -53,13 +54,10 @@ public class JMSClient implements javax.jms.MessageListener {
         // Methode permettant au consommateur de consommer effectivement chaque msg recu
         // via la queue
         try {
-            System.out.print("Recu un message de la queue: "+((MapMessage)message).getString("nom"));
-            System.out.println(((MapMessage)message).getString("num"));
+            System.out.println("Recu un message de la queue: "+ (((TextMessage) message).getText()));
         } catch (JMSException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
 }

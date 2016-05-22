@@ -1,9 +1,13 @@
 package purchasingcars;
 
+import JMS.JMSServer;
 import appli1.IService;
 import iRMI.IRMIRegistry;
+import iRMI.NonSerializableException;
 import purchasingcars.business.Car;
 
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -21,9 +25,18 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
 
     private final String K_NOMMAGE = "/PurchasingCars/";
 
+    private static List<IClientStatus> toRecalled;
+
+    private JMSServer jms;
+
+    private List<MessageProducer> prod;
+
     protected PurchaseService() throws RemoteException, MalformedURLException, NotBoundException {
         super();
         rmiUniversel = (IRMIRegistry) Naming.lookup("rmi://localhost:1098/RMIUniversel");
+        toRecalled = new ArrayList<>();
+        jms = new JMSServer();
+        prod = new ArrayList<>();
     }
 
     @Override
@@ -32,39 +45,76 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
     }
 
     @Override
-    public synchronized Car buyCar(String key, IClientStatus cli) throws Exception {
-        String nameInRegistry = K_NOMMAGE + key;
-        Car wantedCar = (Car) rmiUniversel.lookup(nameInRegistry);
-        if(wantedCar != null && cli.getSolvency()){
-            rmiUniversel.unbind(nameInRegistry);
-            cli.updateSolvency();
-            return wantedCar;
+    public synchronized Car buyCar(String key, IClientStatus cli) throws RemoteException {
+        try {
+            String nameInRegistry = K_NOMMAGE + key;
+            Car wantedCar = (Car) rmiUniversel.lookup(nameInRegistry);
+            if(wantedCar != null && cli.getSolvency()){
+                rmiUniversel.unbind(nameInRegistry);
+                cli.updateSolvency();
+                System.out.println(jms);
+                if(! prod.isEmpty()){
+                    jms.sendMessage(prod, "Vite il ne vas plus en rester");
+                }
+                return wantedCar;
+            }
+        } catch (JMSException e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 
     @Override
-    public synchronized boolean sellCar(Car car, IClientStatus cli) throws Exception {
-        String nameInRegistry = K_NOMMAGE + car.getNom();
-        for(String key : rmiUniversel.list()){
-            if(key.equals(nameInRegistry))
-                return false;
+    public synchronized boolean sellCar(Car car, IClientStatus cli) throws RemoteException {
+        try {
+            String nameInRegistry = K_NOMMAGE + car.getNom();
+            for(String key : rmiUniversel.list()){
+                if(key.equals(nameInRegistry))
+                    return false;
+            }
+            rmiUniversel.bind(nameInRegistry, car);
+            cli.updateSolvency();
+            if(! prod.isEmpty()){
+                jms.sendMessage(prod, "Une nouvelle voiture est disponible");
+            }
+        } catch (NonSerializableException e) {
+            e.printStackTrace();
+        } catch (JMSException e) {
+            e.printStackTrace();
         }
-        rmiUniversel.bind(nameInRegistry, car);
-        cli.updateSolvency();
         return true;
     }
 
     @Override
-    public List<Car> getCatalogue() throws Exception {
+    public List<Car> getCatalogue() throws RemoteException {
         List<Car> cars = new ArrayList<>();
         for(String key : rmiUniversel.list()){
-            System.out.println(key.split("/")[1]
-            );
+            System.out.println(key.split("/")[1]);
             if(key.split("/")[1].equals("PurchasingCars")){
                 cars.add((Car) rmiUniversel.lookup(key));
             }
         }
         return cars;
+    }
+
+    @Override
+    public boolean beRecalled(IClientStatus cli) throws RemoteException {
+        toRecalled.add(cli);
+        return true;
+    }
+
+    public static void processRecalls() throws RemoteException{
+        for(IClientStatus cli : toRecalled){
+            cli.call("Le service est disponible");
+        }
+        toRecalled.clear();
+    }
+
+    @Override
+    public String subscribe(String nameCli) throws RemoteException {
+        prod.add(jms.initQueue(nameCli));
+        System.out.println("dans subscribe " + prod);
+        return nameCli;
     }
 }

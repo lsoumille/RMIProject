@@ -5,6 +5,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * @author Lucas Martinez
@@ -30,9 +31,8 @@ public class JMSServer {
             javax.jms.ConnectionFactory factory = (ConnectionFactory) context.lookup("ConnectionFactory");
             connect = factory.createConnection();
 
-            connect.start();
-
             session = connect.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
+            connect.start();
 
         } catch (javax.jms.JMSException | NamingException e){
             e.printStackTrace();
@@ -50,10 +50,10 @@ public class JMSServer {
 
     }
 
-    public void sendMessage(MessageProducer prod) throws JMSException{
+    public void sendMessage(List<MessageProducer> prod, String message) throws JMSException{
 
         //TODO : faire une vraie méthode et pas prendre le copier/coller du TP5
-        for (int i=1;i<=10;i++){
+        /*for (int i=1;i<=10;i++){
             //Fabriquer un message
             MapMessage mess = session.createMapMessage();
             mess.setInt("num",i);
@@ -63,6 +63,12 @@ public class JMSServer {
             if (i==1) mess.setIntProperty("numMess",1);
 
             prod.send(mess);
+        }*/
+
+        TextMessage mess = session.createTextMessage();
+        mess.setText(message);
+        for(MessageProducer p : prod){
+            p.send(mess);
         }
     }
 

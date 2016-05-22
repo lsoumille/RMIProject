@@ -11,4 +11,6 @@ public interface IClientStatus extends Remote {
     boolean getSolvency() throws RemoteException;
 
     void updateSolvency() throws RemoteException;
+
+    void call(String message) throws RemoteException;
 }

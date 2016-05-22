@@ -1,1 +1,9 @@
 Utiliser les context
+
+Lancer le RMI registry au dessus des bins du universel avec rmiregistry 1098 -j -Djava.rmi.server.useCodebaseOnly=false
+
+Serveur : -Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.codebase="http://localhost:8080/" -Djava.security.policy="security.txt"
+
+Client : -Djava.security.policy="security.txt" -Djava.rmi.server.useCodebaseOnly=false
+
+RMIUniversel : -Djava.rmi.server.useCodebaseOnly=false -Djava.security.policy="security.txt"

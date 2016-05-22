@@ -29,7 +29,7 @@ public class SPApp1 implements IService, Serializable {
         JMSServer jmsServer = new JMSServer();
         String queueName = idClient + "_queue";
         prod = jmsServer.initQueue(queueName);
-        jmsServer.sendMessage(prod); //tmp
+       // jmsServer.sendMessage(prod); //tmp
         return queueName;
     }
 }

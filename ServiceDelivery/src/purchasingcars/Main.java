@@ -27,8 +27,11 @@ public class Main {
 
             Car redCard = new Car("red");
             stub.bind("/PurchasingCars/red", redCard);
-            stub.bind("/suce", redCard);
             System.out.println("Service ajouté");
+            while(true){
+                PurchaseService.processRecalls();
+                Thread.sleep(5000);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

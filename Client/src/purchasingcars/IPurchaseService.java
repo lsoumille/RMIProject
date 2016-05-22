@@ -17,9 +17,13 @@ public interface IPurchaseService extends Remote {
      */
     String getInformation() throws RemoteException;
 
-    Car buyCar(String key, IClientStatus cli) throws Exception;
+    Car buyCar(String key, IClientStatus cli) throws RemoteException;
 
-    boolean sellCar(Car car, IClientStatus cli) throws Exception;
+    boolean sellCar(Car car, IClientStatus cli) throws RemoteException;
 
-    List<Car> getCatalogue() throws Exception;
+    List<Car> getCatalogue() throws RemoteException;
+
+    boolean beRecalled(IClientStatus cli) throws RemoteException;
+
+    String subscribe(String nameCli) throws RemoteException;
 }

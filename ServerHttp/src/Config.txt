@@ -9,3 +9,5 @@ ServiceDelivery
 
 rmiregistry 1098 -Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.co
 debase="http://localhost:8080/"
+
+8080 out/production/ServiceDelivery
