@@ -17,7 +17,7 @@ public interface IRMIRegistry extends Remote {
      * @param name
      * @param obj
      */
-    void bind(String name, Serializable obj) throws RemoteException, NotSerializableException, AlreadyBoundException;;
+    void bind(String name, Serializable obj) throws RemoteException, NotSerializableException, AlreadyBoundException;
 
     /**
      * Replace the entry for the specified name in our Registry

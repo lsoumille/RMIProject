@@ -7,7 +7,7 @@ import java.rmi.Remote;
  * @author Lucas Martinez
  * @version 19/05/16.
  */
-public class RemoteObj implements Remote, Serializable {
+public class RemoteObj implements Serializable {
     private int n;
 
     public RemoteObj(int n) {
