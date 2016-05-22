@@ -62,4 +62,12 @@ public interface IRMIRegistry extends Remote {
      * @return
      */
     String[] getLastEntries(int n) throws RemoteException;
+
+    /**
+     * Return true if the name in parameter is a service, false otherwise
+     * @param name
+     * @return
+     * @throws RemoteException
+     */
+    public boolean isService(String name) throws RemoteException;
 }

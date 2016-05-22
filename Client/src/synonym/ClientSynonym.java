@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ClientSynonym {
 
-    public static void main(String[] args) {
+    public void start() {
         try {
             if (System.getSecurityManager() == null) {
                 System.setSecurityManager(new SecurityManager());
@@ -52,5 +52,9 @@ public class ClientSynonym {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        new ClientSynonym().start();
     }
 }

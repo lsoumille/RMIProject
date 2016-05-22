@@ -148,6 +148,16 @@ public class RegistryAPI {
         return lastEntries;
     }
 
+    public boolean isService(String key){
+        String serviceKey = "/" + key;
+        if (keys.contains(serviceKey)) {
+                return true;
+        } else if (keys.contains(key)){
+            return false;
+        }
+        return false;
+    }
+
     public static HashMap<String, Serializable> getMap() {
         return map;
     }

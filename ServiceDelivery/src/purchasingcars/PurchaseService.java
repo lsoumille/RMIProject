@@ -85,8 +85,7 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
     public List<Car> getCatalogue() throws RemoteException {
         List<Car> cars = new ArrayList<>();
         for(String key : rmiUniversel.list()){
-            System.out.println(key.split("/")[1]);
-            if(key.split("/")[1].equals("PurchasingCars")){
+            if(rmiUniversel.isService(key) && key.equals("PurchasingCars")){
                 cars.add((Car) rmiUniversel.lookup(key));
             }
         }

@@ -74,4 +74,9 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     public String[] getLastEntries(int n) throws RemoteException {
         return registry.getLastEntries(n);
     }
+
+    @Override
+    public boolean isService(String name) throws RemoteException{
+        return registry.isService(name);
+    }
 }

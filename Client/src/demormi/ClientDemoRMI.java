@@ -15,7 +15,8 @@ import java.rmi.RemoteException;
  */
 public class ClientDemoRMI {
 
-    public static void main(String[] args) {
+
+    public void start() {
         try {
             if (System.getSecurityManager() == null) {
                 System.setSecurityManager(new SecurityManager());
@@ -87,5 +88,9 @@ public class ClientDemoRMI {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args) {
+        new ClientDemoRMI().start();
     }
 }

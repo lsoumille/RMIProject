@@ -23,7 +23,7 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
         this.solvency = solvency;
     }
 
-    public static void main(String[] args) {
+    public void start() {
         try {
             ClientPurchaseCars cli = new ClientPurchaseCars(true);
             ClientJMS jms;
@@ -72,5 +72,13 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
     @Override
     public void call(String message) throws RemoteException {
         System.out.println("Le serveur vous a contacté et vous a laissé le message suivant : " + message);
+    }
+
+    public static void main(String[] args) {
+        try {
+            new ClientPurchaseCars(true).start();
+        } catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 }

@@ -15,4 +15,9 @@ public class Car implements Serializable {
     public String getNom() {
         return nom;
     }
+
+    @Override
+    public String toString() {
+        return "Car: " + nom;
+    }
 }
