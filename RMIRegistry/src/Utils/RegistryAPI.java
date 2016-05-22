@@ -149,11 +149,8 @@ public class RegistryAPI {
     }
 
     public boolean isService(String key){
-        String serviceKey = "/" + key;
-        if (keys.contains(serviceKey)) {
+        if (keys.contains(key) && key.startsWith("/")) {
                 return true;
-        } else if (keys.contains(key)){
-            return false;
         }
         return false;
     }

@@ -1,8 +1,5 @@
 package purchasingcars;
 
-import appli1.IService;
-import appli1.SPApp1;
-
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;

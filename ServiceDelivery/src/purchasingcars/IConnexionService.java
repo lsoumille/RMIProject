@@ -1,7 +1,5 @@
 package purchasingcars;
 
-import appli1.IService;
-
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
