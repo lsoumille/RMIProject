@@ -23,11 +23,12 @@ public class Main {
             //On crée le stub
             IConnexionService myService = new ConnexionService();
             //On link notre service
-            stub.bind("/MonService", myService);
+            stub.rebind("/ConnexionPC", myService);
 
             Car redCard = new Car("red");
-            stub.bind("/PurchasingCars/red", redCard);
+            stub.rebind("/PurchasingCars/red", redCard);
             System.out.println("Service ajouté");
+            //Toutes les 5 secs on appelle les clients qui ont demandé à etre rappelé
             while(true){
                 PurchaseService.processRecalls();
                 Thread.sleep(5000);

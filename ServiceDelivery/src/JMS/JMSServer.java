@@ -20,8 +20,12 @@ public class JMSServer {
         configure();
     }
 
+    /**
+     * configure the context and the connection at the activeMQ
+     */
     public void configure() {
-        try {	// Create a connection
+        try {
+            // Create a connection
             Hashtable properties = new Hashtable();
             properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
             properties.put(Context.PROVIDER_URL, "tcp://localhost:61616");
@@ -39,6 +43,11 @@ public class JMSServer {
         }
     }
 
+    /**
+     * Create a queue for a client
+     * @param name
+     * @return
+     */
     public MessageProducer initQueue(String name){
         try {
             Queue queue = (Queue) context.lookup("dynamicQueues/" + name);
@@ -50,21 +59,13 @@ public class JMSServer {
 
     }
 
+    /**
+     * Send a message at all queues in the list prod
+     * @param prod
+     * @param message
+     * @throws JMSException
+     */
     public void sendMessage(List<MessageProducer> prod, String message) throws JMSException{
-
-        //TODO : faire une vraie méthode et pas prendre le copier/coller du TP5
-        /*for (int i=1;i<=10;i++){
-            //Fabriquer un message
-            MapMessage mess = session.createMapMessage();
-            mess.setInt("num",i);
-            mess.setString("nom",i+"-");
-            if (i%2==0)
-                mess.setStringProperty("typeMess","important");
-            if (i==1) mess.setIntProperty("numMess",1);
-
-            prod.send(mess);
-        }*/
-
         TextMessage mess = session.createTextMessage();
         mess.setText(message);
         for(MessageProducer p : prod){

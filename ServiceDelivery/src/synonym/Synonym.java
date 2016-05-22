@@ -9,7 +9,7 @@ import java.util.*;
  * Created by lucas on 21/05/16.
  */
 public class Synonym extends UnicastRemoteObject implements ISynonym, Serializable {
-
+    
     Map<String, List<String>> dict;
 
     public Synonym() throws RemoteException {

@@ -23,6 +23,7 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
 
     private final String K_NOMMAGE = "/PurchasingCars/";
 
+    //Liste des clients à recontacter
     private static List<IClientStatus> toRecalled;
 
     private JMSServer jms;
@@ -45,12 +46,14 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
     @Override
     public synchronized Car buyCar(String key, IClientStatus cli) throws RemoteException {
         try {
+            //Récupération de la voiture dans le registre universel
             String nameInRegistry = K_NOMMAGE + key;
             Car wantedCar = (Car) rmiUniversel.lookup(nameInRegistry);
             if(wantedCar != null && cli.getSolvency()){
                 rmiUniversel.unbind(nameInRegistry);
                 cli.updateSolvency();
                 if(! prod.isEmpty()){
+                    //On notifie les abonnés
                     jms.sendMessage(prod, "Vite il ne va plus en rester");
                 }
                 return wantedCar;
@@ -65,6 +68,7 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
     @Override
     public synchronized boolean sellCar(Car car, IClientStatus cli) throws RemoteException {
         try {
+            //On vérifie qu'elle n'existe pas
             String nameInRegistry = K_NOMMAGE + car.getNom();
             for(String key : rmiUniversel.list()){
                 if(key.equals(nameInRegistry))
@@ -73,6 +77,7 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
             rmiUniversel.bind(nameInRegistry, car);
             cli.updateSolvency();
             if(! prod.isEmpty()){
+                //On notifie les abonnés
                 jms.sendMessage(prod, "Une nouvelle voiture est disponible");
             }
         } catch (Exception e) {
@@ -85,7 +90,7 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
     public List<Car> getCatalogue() throws RemoteException {
         List<Car> cars = new ArrayList<>();
         for(String key : rmiUniversel.list()){
-            if(rmiUniversel.isService(key) && key.equals("/PurchasingCars")){
+            if(rmiUniversel.isService(key) && key.split("/")[1].equals("PurchasingCars")){
                 cars.add((Car) rmiUniversel.lookup(key));
             }
         }

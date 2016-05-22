@@ -20,8 +20,12 @@ public class ClientJMS implements MessageListener {
         configure();
     }
 
+    /**
+     * configure the context and the connection at the activeMQ
+     */
     public void configure() {
-        try {	// Create a connection
+        try {
+            // Create a connection
             Hashtable properties = new Hashtable();
             properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
             properties.put(Context.PROVIDER_URL, "tcp://localhost:61616");
@@ -36,6 +40,10 @@ public class ClientJMS implements MessageListener {
         }
     }
 
+    /**
+     * Set the client as a receiver
+     * @param queueName
+     */
     public void initClient(String queueName){
         try{
 
@@ -49,10 +57,12 @@ public class ClientJMS implements MessageListener {
         }
     }
 
+    /**
+     * Action executed when a message is received
+     * @param message
+     */
     @Override
     public void onMessage(Message message) {
-        // Methode permettant au consommateur de consommer effectivement chaque msg recu
-        // via la queue
         try {
             System.out.println("Recu un message de la queue: "+ (((TextMessage) message).getText()));
         } catch (JMSException e) {

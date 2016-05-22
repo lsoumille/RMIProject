@@ -1,11 +1,8 @@
 package purchasingcars;
 
 import JMS.ClientJMS;
-import purchasingcars.IConnexionService;
-import purchasingcars.IPurchaseService;
 import purchasingcars.business.Car;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -25,6 +22,7 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
 
     public void start() {
         try {
+            //Creation de l'objet client
             ClientPurchaseCars cli = new ClientPurchaseCars(true);
             ClientJMS jms;
             if (System.getSecurityManager() == null) {
@@ -34,26 +32,49 @@ public class ClientPurchaseCars extends UnicastRemoteObject implements IClientSt
             Registry reg =  LocateRegistry.getRegistry(1098);
 
             iRMI.IRMIRegistry stub = (iRMI.IRMIRegistry) reg.lookup("RMIUniversel");
-            IConnexionService connec = (IConnexionService) stub.lookup("/MonService");
-            IPurchaseService monService = connec.accessService();
-            for(Car c : monService.getCatalogue()){
-                System.out.println(c.getNom());
+            //On se connecte a l'application
+            IConnexionService connec = (IConnexionService) stub.lookup("/ConnexionPC");
+            IPurchaseService carService = connec.accessService();
+            System.out.println("--->  Demonstration de la plateforme PurchasingCars  <---");
+            //Affichage du catalogue
+            System.out.println("----- Affichage du Catalogue de voitures disponibles : -----");
+            for(Car c : carService.getCatalogue()){
+                System.out.println("-> " + c.getNom());
             }
-            Car c = monService.buyCar("red", cli);
+            //On achète la voiture
+            System.out.println("----- Achat de la voiture \"red\" -----");
+            Car c = carService.buyCar("red", cli);
             if(c == null) {
                 System.out.println("Transaction impossible");
+                return;
+            } else {
+                System.out.println("----- Transaction réalisée ! Avons nous encore de l'argent ? " + cli.solvency);
             }
-            monService.sellCar(c, cli);
-            System.out.println(cli.solvency);
-            monService.beRecalled(cli);
+            //On vend la voiture
+            System.out.println("----- Vente de la voiture \"red\" -----");
+            carService.sellCar(c, cli);
+            System.out.println("----- Avons nous récupéré de l'argent ? " + cli.solvency);
+
+            //Test du rappel
+            System.out.println("----- Je demande a être rappelé (réponse dans < 5 secs) -----" );
+            carService.beRecalled(cli);
+
+            Thread.sleep(5000);
 
             //Abonnement
-            String nomQueue = monService.subscribe("Lucas");
+            System.out.println("----- On s'abonne au système de notification -----");
+            String nomQueue = carService.subscribe("Lucas");
+            //initiation des configuration
             jms = new ClientJMS();
             jms.initClient(nomQueue);
 
-            c = monService.buyCar("red", cli);
-            monService.sellCar(c, cli);
+            System.out.println("----- On va faire un achat et une vente pour les notifications -----");
+            c = carService.buyCar("red", cli);
+            if(c == null){
+                System.out.println("Transaction impossible");
+                return;
+            }
+            carService.sellCar(c, cli);
         } catch (Exception e) {
             e.printStackTrace();
         }
