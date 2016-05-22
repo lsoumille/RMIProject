@@ -52,9 +52,8 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
             if(wantedCar != null && cli.getSolvency()){
                 rmiUniversel.unbind(nameInRegistry);
                 cli.updateSolvency();
-                System.out.println(jms);
                 if(! prod.isEmpty()){
-                    jms.sendMessage(prod, "Vite il ne vas plus en rester");
+                    jms.sendMessage(prod, "Vite il ne va plus en rester");
                 }
                 return wantedCar;
             }
@@ -114,7 +113,6 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
     @Override
     public String subscribe(String nameCli) throws RemoteException {
         prod.add(jms.initQueue(nameCli));
-        System.out.println("dans subscribe " + prod);
         return nameCli;
     }
 }
