@@ -1,6 +1,5 @@
 package iRMI;
 
-import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
@@ -17,14 +16,14 @@ public interface IRMIRegistry extends Remote {
      * @param name
      * @param obj
      */
-    void bind(String name, Serializable obj) throws RemoteException, NotSerializableException, AlreadyBoundException;
+    void bind(String name, Serializable obj) throws RemoteException, AlreadyBoundException;
 
     /**
      * Replace the entry for the specified name in our Registry
      * @param name
      * @param obj
      */
-    void rebind(String name, Serializable obj) throws RemoteException, NotSerializableException;
+    void rebind(String name, Serializable obj) throws RemoteException;
 
     /**
      * Return the corresponding Object

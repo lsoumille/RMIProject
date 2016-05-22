@@ -28,45 +28,37 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     }
 
     @Override
-    public void bind(String name, Serializable obj) throws NotSerializableException, AlreadyBoundException {
-        if ((obj instanceof Serializable) || (obj instanceof Externalizable)){
-            registry.add(name, obj);
-        } else {
-            throw new NotSerializableException("The object is not serializable.");
-        }
+    public void bind(String name, Serializable obj) throws RemoteException, AlreadyBoundException {
+        registry.add(name, obj);
     }
 
     @Override
-    public void rebind(String name, Serializable obj) throws NotSerializableException {
-        if ((obj instanceof Serializable) || (obj instanceof Externalizable)){
-            registry.addAnyway(name, obj);
-        } else {
-            throw new NotSerializableException("The object is not serializable.");
-        }
+    public void rebind(String name, Serializable obj) throws RemoteException {
+        registry.addAnyway(name, obj);
     }
 
     @Override
-    public Serializable lookup(String name) {
+    public Serializable lookup(String name) throws RemoteException {
         return registry.get(name);
     }
 
     @Override
-    public void rename(String name, String newName) {
+    public void rename(String name, String newName) throws RemoteException {
         registry.rename(name, newName);
     }
 
     @Override
-    public void unbind(String name) {
+    public void unbind(String name) throws RemoteException {
         registry.remove(name);
     }
 
     @Override
-    public String[] list() {
+    public String[] list() throws RemoteException {
         return registry.list();
     }
 
     @Override
-    public String[] getLastKeys(int n){
+    public String[] getLastKeys(int n) throws RemoteException {
         return registry.getLastKeys(n);
     }
 
@@ -76,7 +68,7 @@ public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
     }
 
     @Override
-    public boolean isService(String name) throws RemoteException{
+    public boolean isService(String name) throws RemoteException {
         return registry.isService(name);
     }
 }
