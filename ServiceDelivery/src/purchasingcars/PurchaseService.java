@@ -1,9 +1,7 @@
 package purchasingcars;
 
 import JMS.JMSServer;
-import appli1.IService;
 import iRMI.IRMIRegistry;
-import iRMI.NonSerializableException;
 import purchasingcars.business.Car;
 
 import javax.jms.JMSException;
@@ -77,9 +75,7 @@ public class PurchaseService extends UnicastRemoteObject implements IPurchaseSer
             if(! prod.isEmpty()){
                 jms.sendMessage(prod, "Une nouvelle voiture est disponible");
             }
-        } catch (NonSerializableException e) {
-            e.printStackTrace();
-        } catch (JMSException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return true;

@@ -1,12 +1,11 @@
 package iRMI;
 
-import Exceptions.NonSerializableException;
 import Utils.RegistryAPI;
-import iRMI.IRMIRegistry;
 
 import java.io.Externalizable;
+import java.io.NotSerializableException;
 import java.io.Serializable;
-import java.rmi.Remote;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -16,58 +15,63 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RMIRegistry extends UnicastRemoteObject implements IRMIRegistry {
 
-    private RegistryAPI map;
+    private RegistryAPI registry;
 
     public RMIRegistry(int numport) throws RemoteException{
         super(numport);
-        map = new RegistryAPI();
+        registry = new RegistryAPI();
     }
 
     public RMIRegistry() throws RemoteException{
         super();
-        map = new RegistryAPI();
+        registry = new RegistryAPI();
     }
 
     @Override
-    public void bind(String name, Serializable obj) throws NonSerializableException {
+    public void bind(String name, Serializable obj) throws NotSerializableException, AlreadyBoundException {
         if ((obj instanceof Serializable) || (obj instanceof Externalizable)){
-            map.add(name, obj);
+            registry.add(name, obj);
         } else {
-            throw new NonSerializableException("The object is not serializable.");
+            throw new NotSerializableException("The object is not serializable.");
         }
     }
 
     @Override
-    public void rebind(String name, Serializable obj) throws NonSerializableException {
+    public void rebind(String name, Serializable obj) throws NotSerializableException {
         if ((obj instanceof Serializable) || (obj instanceof Externalizable)){
-            map.add(name, obj);
+            registry.addAnyway(name, obj);
         } else {
-            throw new NonSerializableException("The object is not serializable.");
+            throw new NotSerializableException("The object is not serializable.");
         }
     }
 
     @Override
     public Serializable lookup(String name) {
-        return map.get(name);
+        return registry.get(name);
     }
 
     @Override
     public void rename(String name, String newName) {
-        map.rename(name, newName);
+        registry.rename(name, newName);
     }
 
     @Override
     public void unbind(String name) {
-        map.remove(name);
+        registry.remove(name);
     }
 
     @Override
     public String[] list() {
-        return map.list();
+        return registry.list();
     }
 
     @Override
-    public String[] getLastEntries(int n){
-        return map.getLastEntries(n);
+    public String[] getLastKeys(int n){
+        return registry.getLastKeys(n);
+    }
+
+    @Override
+    public String[] getLastEntries(int n) throws RemoteException {
+        return registry.getLastEntries(n);
     }
 }

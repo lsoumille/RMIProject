@@ -1,3 +1,5 @@
+package demormi;
+
 import java.io.Serializable;
 import java.rmi.Remote;
 
@@ -18,5 +20,10 @@ public class RemoteObj implements Remote, Serializable {
 
     public void setN(int n) {
         this.n = n;
+    }
+
+    @Override
+    public String toString() {
+        return "RemoteObj: n = " + n;
     }
 }

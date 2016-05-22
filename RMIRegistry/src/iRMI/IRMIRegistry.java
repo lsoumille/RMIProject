@@ -1,8 +1,8 @@
 package iRMI;
 
-import Exceptions.NonSerializableException;
-
+import java.io.NotSerializableException;
 import java.io.Serializable;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -17,14 +17,14 @@ public interface IRMIRegistry extends Remote {
      * @param name
      * @param obj
      */
-    void bind(String name, Serializable obj) throws RemoteException, NonSerializableException;;
+    void bind(String name, Serializable obj) throws RemoteException, NotSerializableException, AlreadyBoundException;;
 
     /**
      * Replace the entry for the specified name in our Registry
      * @param name
      * @param obj
      */
-    void rebind(String name, Serializable obj) throws RemoteException, NonSerializableException;;
+    void rebind(String name, Serializable obj) throws RemoteException, NotSerializableException;
 
     /**
      * Return the corresponding Object
@@ -52,7 +52,13 @@ public interface IRMIRegistry extends Remote {
     String[] list() throws RemoteException;
 
     /**
-     * Return an array with the n last entry names
+     * Return an array with the n last keys
+     * @return
+     */
+    String[] getLastKeys(int n) throws RemoteException;
+
+    /**
+     * Return an array with the n last couple (key, object)
      * @return
      */
     String[] getLastEntries(int n) throws RemoteException;

@@ -3,10 +3,7 @@ package synonym;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lucas on 21/05/16.
@@ -17,6 +14,8 @@ public class Synonym extends UnicastRemoteObject implements ISynonym, Serializab
 
     public Synonym() throws RemoteException {
         dict = new HashMap<>();
+        dict.put("Soumille", new ArrayList<>(Arrays.asList("Sousou", "vrioche")));
+        dict.put("imaginaire", new ArrayList<>(Arrays.asList("abstrait", "fantaisiste", "fictionnel")));
     }
 
     @Override

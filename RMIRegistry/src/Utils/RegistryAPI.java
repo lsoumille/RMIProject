@@ -1,6 +1,7 @@
 package Utils;
 
 import java.io.Serializable;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,23 @@ public class RegistryAPI {
      * @param key
      * @param obj
      */
-    public void add(String key, Serializable obj){
+    public void add(String key, Serializable obj) throws AlreadyBoundException {
+        if(map.containsKey(key)){
+            throw new AlreadyBoundException(key + " is already bound.");
+        }
+        map.put(key, obj);
+        if (keys.contains(key)){
+            keys.remove(key);
+        }
+        keys.add(key);
+    }
+
+    /**
+     * Adds always the (key, obj) to the hashmap and the key to the list
+     * @param key
+     * @param obj
+     */
+    public void addAnyway(String key, Serializable obj){
         map.put(key, obj);
         if (keys.contains(key)){
             keys.remove(key);
@@ -86,16 +103,46 @@ public class RegistryAPI {
     }
 
     /**
-     * Returns the names of the n last objects added
+     * Returns the names of the n last keys added
+     * @param n
+     * @return
+     */
+    public String[] getLastKeys(int n){
+        String[] lastEntries;
+        if (n > 0){
+            int maxN = (n >= keys.size() ? keys.size() : n);
+            lastEntries = new String[maxN];
+
+            int last = maxN - 1;
+            for (int i = 0; i < maxN; i++, last--){
+                lastEntries[i] = keys.get(last);
+            }
+        } else {
+            lastEntries = new String[1];
+            lastEntries[0] = "Veuillez entrer un nombre positif.";
+        }
+
+        return lastEntries;
+    }
+
+    /**
+     * Returns the names of the n last (key, object) added
      * @param n
      * @return
      */
     public String[] getLastEntries(int n){
-        String[] lastEntries = new String[n];
-        int last = n - 1;
+        String[] lastEntries;
+        if (n > 0){
+            int maxN = (n >= map.size() ? map.size() : n);
+            lastEntries = new String[maxN];
 
-        for (int i = 0; i < n; i++, last--){
-            lastEntries[i] = keys.get(last);
+            int last = maxN - 1;
+            for (int i = 0; i < maxN; i++, last--){
+                lastEntries[i] = "(" + keys.get(last) + ", " + map.get(keys.get(last)) + ")";
+            }
+        } else {
+            lastEntries = new String[1];
+            lastEntries[0] = "Veuillez entrer un nombre positif.";
         }
 
         return lastEntries;
