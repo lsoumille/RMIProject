@@ -2,7 +2,6 @@ import iRMI.RMIRegistry;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 
 /**
@@ -14,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             if (System.getSecurityManager() == null) {
-                System.setSecurityManager(new RMISecurityManager());
+                System.setSecurityManager(new SecurityManager());
             }
             RMIRegistry serv = new RMIRegistry(10003);
             Naming.rebind("rmi://localhost:1098/RMIUniversel", serv);
